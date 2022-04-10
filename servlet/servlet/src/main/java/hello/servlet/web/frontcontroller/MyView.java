@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 public class MyView {
 
@@ -16,8 +17,20 @@ public class MyView {
 
 	public void render(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
-
 		dispatcher.forward(request, response);
 
 	}
+
+	public void render(ModelView mv, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		modelToRequestAttribute(mv, request);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+		dispatcher.forward(request, response);
+	}
+
+	private void modelToRequestAttribute(ModelView mv, HttpServletRequest request) {
+		mv.getModel().forEach((key, value) -> request.setAttribute(key, value));
+	}
+
+
 }
