@@ -43,10 +43,11 @@ public class FrontControllerServletV3 extends HttpServlet {
 
 		Map<String, String> paramMap = createParamMap(request);
 		ModelView mv = controller.process(paramMap);
+		Map<String, Object> model = mv.getModel();
 		String viewName = mv.getViewName();
 
 		MyView view = viewResolver(viewName);
-		view.render(mv,request, response);
+		view.render(model,request, response);
 
 	}
 
